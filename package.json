@@ -1,0 +1,20 @@
+{
+  "dependencies": {
+    "concurrently": "^9.1.2",
+    "electron": "^34.0.2",
+    "wait-on": "^8.0.2"
+  },
+  "name": "ds",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start-python": "python main.py",
+    "start-electron": "electron main.js",
+    "wait-and-start-electron": "wait-on http://127.0.0.1:5000 && npm run start-electron",
+    "start": "concurrently --kill-others \"npm run start-python\" \"npm run wait-and-start-electron\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

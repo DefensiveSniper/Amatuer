@@ -1,0 +1,243 @@
+/* 全局重置与基础设置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body, html {
+  width: 100%;
+  height: 100%;
+}
+
+/* 外层容器：水平两栏 */
+.container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0;
+}
+
+/* 左侧侧边栏 */
+.sidebar {
+  display: flex;
+  flex-direction: column;  /* 从上到下排布 */
+  width: 20%;             /* 或者写固定宽度：240px等 */
+  background-color: #f0f0f0;
+  padding: 10px;
+  /* border-right: 2px solid #ccc; */
+}
+/* 顶部小区域：左右分为两部分，1:2比例 */
+.sidebar-top {
+  height: 80px;
+  /* background-color: #ddd; */
+  margin-bottom: 10px;
+  display: flex;
+  /* border: 1px solid #ccc; */
+  border-radius: 4px;
+}
+.sidebar-top .logo {
+  flex: 1; /* 左侧logo区域 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: #ccc; */
+}
+/* 让图片填充整个 .logo 容器 */
+.sidebar-top .logo img {
+  width: 50px;  /* 与容器高度相同，保持正方形 */
+  height: 50px;
+  object-fit: cover;
+  border-radius: 7px;
+}
+.sidebar-top .app-name {
+  flex: 2; /* 右侧app名称区域 */
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  font-weight: bold;
+  font-size: 20px;
+  /* background-color: #bbb; */
+}
+.sidebar-content {
+  flex: 1;  /* 占据剩余空间 */
+  /* background-color: #ddd; */
+  display: flex;
+  flex-direction: column;
+  /* gap: 10px; */
+  align-items: left;
+  /* justify-content: center; */
+  /* border: 1px solid #ccc; */
+  border-radius: 4px;
+}
+/* 菜单项默认状态：背景透明 + 动画过渡 */
+.sidebar-content .menu-item {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 10px;
+  border-radius: 4px;
+  background-color: transparent;
+  /* 添加 transform 进入过渡，以便产生上下移动动画 */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  padding: 0 8px;
+}
+/* 点击后激活状态：白色背景 + 阴影 + 轻微上移 */
+.sidebar-content .menu-item.active {
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+.sidebar-content .menu-icon {
+  margin-right: 8px; /* 与文字保持一定间距 */
+}
+.menu-icon img{
+  width: 20px;  /* 与容器高度相同，保持正方形 */
+  height: 20px;
+  object-fit: cover;
+  border-radius: 7px;
+}
+.menu-label{
+  align-items: center;
+  justify-content: left;
+  font-size: 15px;
+  margin-bottom: 5px;
+}
+
+/* 右侧主内容区域 */
+.main-box {
+  display: flex;
+  flex: 1;
+  background-color: #f9f9f9;
+  margin: 15px;
+  border-radius: 10px;
+}
+.main-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 20px;
+  border-radius: 20px;
+}
+/* 右侧顶部大区域 */
+.main-header {
+  height: 200px;
+  background-color: #e0e0e0;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  /* 若图片超出容器大小，可以用 overflow: hidden; 隐藏溢出部分 */
+  overflow: hidden;
+  /* 也可视情况添加 position: relative; 等属性 */
+}
+.main-header img{
+  width: 100%;
+  height: 100%;
+  /* 核心属性：让图片以“裁切/填充”的形式填满容器 */
+  object-fit: cover;
+  /* 可视需求设定图片内容的位置，比如居中显示 */
+  object-position: center;
+  /* 移除 img 默认的行内间隙（如果有需要） */
+  display: block;
+}
+/* 让 iframe 全屏铺满内容区域 */
+.iframe-content {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  overflow: hidden; /* 确保 iframe 本身不会产生滚动 */
+}
+/* 隐藏 iframe 内部页面的滚动条 */
+.iframe-content::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+.iframe-content {
+  -ms-overflow-style: none;  /* IE 和 Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+/* 下方三列包装容器 */
+.cards-wrapper {
+  display: flex;
+  flex: 1;              /* 占满剩余垂直空间 */
+  gap: 15px;            /* 列之间的间距 */
+}
+/* 单个卡片 */
+.card {
+  flex: 1;              /* 平均分配剩余宽度 */
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+.main-tail {
+  height: 70px;
+  background-color: rgba(230, 245, 255, 0.7); /* 浅蓝色透明背景 */
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 10px;
+}
+/* 美化 a 标签 */
+.main-tail a {
+  text-decoration: none;  /* 去掉下划线 */
+  font-size: 18px;        /* 设置字体大小 */
+  font-weight: bold;      /* 加粗 */
+  color: #005f80;         /* 深一点的蓝色文字，增强对比度 */
+  background-color: #e0f7ff; /* 浅蓝背景 */
+  padding: 10px 20px;     /* 内边距 */
+  border-radius: 8px;     /* 圆角 */
+  transition: all 0.3s ease-in-out; /* 过渡动画 */
+  border: 1px solid #b0e0ff; /* 增加浅色边框，提高层次感 */
+}
+/* 悬停时样式 */
+.main-tail a:hover {
+  background-color: #d0efff; /* 悬停时变成更浅的蓝色 */
+  transform: scale(1.05);   /* 轻微放大 */
+}
+/* 确保 p 文字不会有额外的 margin */
+.main-tail a p {
+  margin: 0;
+}
+
+/* 动画：淡入 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* 动画：滑入 */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+/* 给 main-content 里的内容加动画 */
+.slide-in {
+  animation: slideIn 0.5s ease-out;
+}
+.fade-in {
+  animation: fadeIn 0.5s ease-out;
+}

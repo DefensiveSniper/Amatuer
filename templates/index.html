@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>Amatuer</title>
+  <!-- 通过 url_for('static', ...) 的方式来引入静态文件 -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <!-- 左侧导航栏 -->
+    <aside class="sidebar">
+      <div class="sidebar-top">
+        <div class="logo">
+          <!-- 替换为实际图片路径 -->
+          <img src="/static/images/logo.png" alt="Logo" />
+        </div>
+        <div class="app-name">Amastuer</div>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="menu-item" data-page="home">
+          <div class="menu-icon">
+            <img src="/static/images/home.png" alt="home" />
+          </div>
+          <div class="menu-label">主页</div>
+        </div>
+        <div class="menu-item" data-page="tools">
+          <div class="menu-icon">
+            <img src="/static/images/tool.png" alt="tool" />
+          </div>
+          <div class="menu-label">功能</div>
+        </div>
+        <div class="menu-item" data-page="about">
+          <div class="menu-icon">
+            <img src="/static/images/about.png" alt="about" />
+          </div>
+          <div class="menu-label">关于</div>
+        </div>        
+      </div>
+
+    </aside>
+
+    <!-- 右侧主要内容区 -->
+    <main class="main-box">
+      <div class="main-content">
+          
+        </div>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuItems = document.querySelectorAll('.menu-item');
+      const mainContent = document.querySelector('.main-content');
+  
+      // 定义各个页面的内容
+      const pages = {
+        home: `
+          <iframe src="https://hzihao.icu" class="iframe-content"></iframe>
+          <div class="main-tail">
+            <a href="https://hzihao.icu" target="_blank">
+              <p>Amatuer发电的地方</p>
+            </a>
+          </div>
+        `,
+        tools: `
+          <!-- 大框区域（顶部） -->
+          <div class="main-header fade-in">
+            <h2>一些可以有用的玩意</h2>
+          </div>
+          <!-- 下方三列 -->
+          <div class="cards-wrapper fade-in">
+            <div class="card">卡片1</div>
+            <div class="card">卡片2</div>
+            <div class="card">卡片3</div>
+          </div>
+        `,
+        about: `
+          <div class="page-content fade-in">
+            <div class="main-header">
+              <h2>关于我们</h2>
+            </div>
+            <div class="about-content">
+              <p>本应用由Amatuer个人独立使用AI开发。</p>
+            </div>
+          </div>
+        `
+      };
+  
+      // 默认加载主页内容
+      mainContent.innerHTML = pages.home;
+      menuItems[0].classList.add('active');
+  
+      // 监听菜单点击事件
+      menuItems.forEach(item => {
+        item.addEventListener('click', () => {
+          // 移除所有按钮的激活状态
+          menuItems.forEach(mi => mi.classList.remove('active'));
+          item.classList.add('active');
+  
+          // 获取对应页面的内容
+          const page = item.getAttribute('data-page');
+  
+          // 清空内容再加动画（延迟 50ms 确保动画生效）
+          mainContent.innerHTML = "";
+          setTimeout(() => {
+            mainContent.innerHTML = pages[page];
+          }, 50);
+        });
+      });
+    });
+  </script>  
+
+</body>
+</html>
