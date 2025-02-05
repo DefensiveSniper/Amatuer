@@ -4,7 +4,7 @@
     "electron": "^34.0.2",
     "wait-on": "^8.0.2"
   },
-  "name": "ds",
+  "name": "amatuer",
   "version": "1.0.0",
   "main": "main.js",
   "scripts": {
