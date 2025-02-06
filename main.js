@@ -28,13 +28,12 @@ app.whenReady().then(() => {
     
     let flaskPath;
     if (process.env.NODE_ENV === "development") {
-        flaskPath = path.join(__dirname, 'main.exe'); // 开发模式
+        flaskPath = path.join(__dirname, 'flask_server.exe'); 
     } else {
-        flaskPath = path.join(process.resourcesPath, '..', 'main.exe'); // 生产模式
+        flaskPath = path.join(process.resourcesPath, '..', 'flask_server.exe'); 
     }
 
-    flaskProcess = spawn(flaskPath, { detached: true, stdio: 'ignore' });
-    flaskProcess.unref();
+    flaskProcess = spawn(flaskPath, { stdio: 'ignore' });
 
     createWindow();
 
@@ -43,9 +42,10 @@ app.whenReady().then(() => {
     });
 });
 
+// 确保 Flask 在 Electron 退出时被关闭
 app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') {
-    if (flaskProcess) flaskProcess.kill();
-    app.quit();
+  if (flaskProcess) {
+    flaskProcess.kill('SIGTERM');
   }
+  app.quit();
 });

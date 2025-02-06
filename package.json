@@ -7,17 +7,17 @@
     "electron": "^34.0.2"
   },
   "name": "amatuer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "main.js",
   "scripts": {
-    "start-python": "python main.py",
+    "start-python": "python flask_server.py",
     "start-electron": "electron main.js",
     "wait-and-start-electron": "wait-on http://127.0.0.1:6969 && npm run start-electron",
     "start": "concurrently --kill-others \"npm run start-python\" \"npm run wait-and-start-electron\""
   },
   "build": {
-    "appId": "com.amatuer.app",
-    "productName": "AmatuerApp",
+    "appId": "com.amateur.app",
+    "productName": "AmateurApp",
     "files": [
       "main.js",
       "static/**/*",
@@ -26,7 +26,7 @@
     ],
     "extraFiles": [
       {
-        "from": "dist/main.exe",
+        "from": "dist/flask_server.exe",
         "to": "."
       }
     ],
