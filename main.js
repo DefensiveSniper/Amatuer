@@ -1,16 +1,19 @@
-const { app, BrowserWindow, Menu, shell } = require('electron'); 
+const { app, BrowserWindow, ipcMain, Menu } = require('electron'); 
 const path = require('path');
 const { spawn } = require('child_process');
+const axios = require('axios');
 
 let flaskProcess;
+let win;
 
 function createWindow() {
-  const win = new BrowserWindow({
+  win = new BrowserWindow({
     width: 1200,
     height: 700,
     icon: path.join(__dirname, 'static', 'images', 'logo.ico'),
+    resizable: false,  // 禁止窗口拉伸或缩放
     webPreferences: {
-      nodeIntegration: false, 
+      nodeIntegration: true,  // 允许渲染进程使用 Node.js
     }
   });
 
@@ -23,6 +26,7 @@ function createWindow() {
   checkServer();
 }
 
+//  打包时使用
 app.whenReady().then(() => {
     Menu.setApplicationMenu(null); 
     
@@ -42,7 +46,20 @@ app.whenReady().then(() => {
     });
 });
 
+//  本地调试时使用,flask_server.py
+// app.whenReady().then(() => {
+//     Menu.setApplicationMenu(null); 
+//     flaskProcess = spawn('python', [path.join(__dirname, 'flask_server.py')]);
+
+//     createWindow();
+
+//     app.on('activate', function () {
+//       if (BrowserWindow.getAllWindows().length === 0) createWindow();
+//     });
+// });
+
 // 确保 Flask 在 Electron 退出时被关闭
+
 app.on('window-all-closed', function () {
   if (flaskProcess) {
     flaskProcess.kill('SIGTERM');
