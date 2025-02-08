@@ -67,7 +67,21 @@
                   <div class="card"><img src="/static/images/ela.png" alt="图片3"></div>
                 </div>`,
         chat: `<div class="chat-container">
-                <button id="configApiButton">配置</button> <!-- 悬浮的配置按钮 -->
+                <div class="button-container">
+                  <button class="button-item" id="newChatButton">
+                    <div class="button-icon">
+                      <img src="/static/images/newchat.png" alt="newchat">
+                    </div>
+                    新聊天
+                  </button>
+
+                  <button class="button-item" id="configApiButton">
+                    <div class="button-icon">
+                      <img src="/static/images/setting.png" alt="setting">
+                    </div>
+                    配置
+                  </button>
+                </div>
                 <div class="chat-box" id="chat-box"></div>
                 <div class="chat-input">
                     <input type="text" id="userInput" placeholder="输入你的问题">
@@ -100,7 +114,7 @@
                 <button id="closeModal">取消</button>
             </div>`,
         about: `<div class="page-content fade-in">
-                  <div class="main-header"><h2>关于我们</h2></div>
+                  <div class="main-header"><h2>一些可能有用的信息</h2></div>
                   <div class="about-content"><p>本应用由Amatuer个人独立使用AI开发。</p></div>
                 </div>`,
       };
@@ -247,6 +261,11 @@
               .catch(error => {
                   console.error("加载配置失败:", error);
               });
+
+              document.getElementById("newChatButton").addEventListener("click", function () {
+                saveChatHistory();
+                clearChatWindow();
+              });
           }
       }, 50);      
       });
@@ -301,7 +320,7 @@
       } catch (error) {
         chatBox.innerHTML += `<div class="ai-message error">服务器错误</div>`;
       }
-    }        
+    }
   
     // 恢复聊天记录
     function restoreChatHistory() {
@@ -316,8 +335,34 @@
         }
       });
     }
-    });
 
+    // 保存聊天记录到本地存储或服务器
+    function saveChatHistory() {
+      try {
+          // 通过 API 保存到服务器
+          // fetch("/save_chat_history", {
+          //     method: "POST",
+          //     headers: { "Content-Type": "application/json" },
+          //     body: JSON.stringify(chatHistory)
+          // }).then(response => {
+          //     console.log("聊天记录已保存");
+          // }).catch(error => {
+          //     console.error("保存聊天记录失败", error);
+          // });
+      } catch (error) {
+          console.error("保存聊天记录时出错", error);
+      }
+    }
+  
+    // 清空聊天窗口和聊天记录数组
+    function clearChatWindow() {
+        const chatBox = document.getElementById('chat-box');
+        if (chatBox) {
+            chatBox.innerHTML = ""; // 清空聊天窗口
+        }
+        chatHistory = []; // 重置聊天记录
+    }
+  });
     </script>    
   </body>
 </html>

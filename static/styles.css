@@ -29,10 +29,8 @@ body, html {
 /* 顶部小区域：左右分为两部分，1:2比例 */
 .sidebar-top {
   height: 80px;
-  /* background-color: #ddd; */
   margin-bottom: 10px;
   display: flex;
-  /* border: 1px solid #ccc; */
   border-radius: 4px;
 }
 .sidebar-top .logo {
@@ -328,50 +326,112 @@ body, html {
 .chat-input button:hover {
   background: #0056b3;
 }
-/* 让API配置按钮浮动在对话框的右上角 */
-#configApiButton {
+
+/* 包裹按钮的盒子样式 */
+.button-container {
   position: absolute;
   top: 10px;
   right: 10px;
-  padding: 5px 12px;
-  border: none;
-  background: #28a745;
-  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* 改为左对齐，让按钮更自然 */
+  gap: 10px; /* 增大间距，增强视觉分离感 */
+  z-index: 1000;
+}
+/* 单个按钮项的样式 */
+.button-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f8f9fa;
+  padding: 8px 12px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
   cursor: pointer;
-  border-radius: 5px;
-  transition: 0.3s;
-  z-index: 1000; /* 确保按钮在最上层 */
+  width: 100px;
+  justify-content: flex-start;
+  border: none; /* 去掉默认按钮边框 */
+  text-align: left; /* 左对齐 */
 }
-#configApiButton:hover {
-  background: #218838;
+.button-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
+
+/* 确保图标样式正常显示 */
+.button-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+}
+.button-icon img {
+  width: 100%;
+  height: 100%;
+}
+
+/* 按钮文字样式 */
+.button-item span {
+  color: #343a40;
+  font-size: 14px;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+.button-item:hover span {
+  color: #007bff;
+}
+
 
 /* 配置 */
 .modal {
-  display: none;
+  display: none; /* 默认隐藏 */
   position: fixed;
-  top: 50%;
-  left: 50%;
+  top: 50%; /* 确保一开始就居中 */
+  left: 50%; /* 确保一开始就居中 */
   transform: translate(-50%, -50%);
-  background: white;
-  padding: 15px;
-  border: 1px solid #ccc;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   z-index: 1000;
+  animation: fadeIn_modal 0.3s ease-in-out; /* 保持淡入动画 */
+  visibility: hidden; /* 改为使用 visibility 和 opacity 控制显示 */
+  opacity: 0;
 }
 .modal.active {
-  display: block;
+  display: block; /* 保持显示逻辑 */
+  visibility: visible; /* 显示模态框 */
+  opacity: 1; /* 透明度变为1 */
+  animation: fadeIn_modal 0.3s ease-in-out;
 }
 .modal-overlay {
-  display: none;
+  display: none; /* 默认隐藏 */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   z-index: 999;
+  animation: fadeIn_modal 0.3s ease-in-out;
+  visibility: hidden; /* 使用 visibility 控制显示状态 */
+  opacity: 0;
 }
 .modal-overlay.active {
   display: block;
+  visibility: visible; /* 显示覆盖层 */
+  opacity: 1; /* 透明度变为1 */
+  animation: fadeIn_modal 0.3s ease-in-out;
+}
+@keyframes fadeIn_modal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
