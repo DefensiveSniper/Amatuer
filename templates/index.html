@@ -276,6 +276,7 @@
       if (event.key === "Enter") {
         event.preventDefault(); // 防止换行
         sendMessage();
+        chatBox.scrollTop = chatBox.scrollHeight;  // 保持滚动条在底部
       }
     }
 
@@ -284,43 +285,54 @@
       const inputField = document.getElementById('userInput');
       const chatBox = document.getElementById('chat-box');
       if (!inputField || !chatBox) return;
+  
       const message = inputField.value.trim();
       if (!message) return;
-    
+  
+      const summarizedMessage = chatHistory.map(entry => 
+          `[${entry.type === "user" ? "User" : "AI"}]: ${entry.text}`
+      ).join("\n") + `\n[User]: ${message}`;
+  
+      // 记录并更新 UI
       chatHistory.push({ type: "user", text: message });
       chatBox.innerHTML += `<div class="user-message">${message}</div>`;
       inputField.value = '';
-    
+  
       try {
-        const response = await fetch('http://127.0.0.1:6969/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message })
-        });
-    
-        const reader = response.body.getReader();
-        let aiMessage = "";
-        let decoder = new TextDecoder();
-    
-        // 先创建一个 div 用于存储 AI 回复
-        const aiMessageDiv = document.createElement('div');
-        aiMessageDiv.classList.add('ai-message');
-        chatBox.appendChild(aiMessageDiv);
-    
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          const chunk = decoder.decode(value, { stream: true });
-          aiMessage += chunk;
-          aiMessageDiv.innerText = aiMessage;  // 逐步更新该 div 的内容
-          chatBox.scrollTop = chatBox.scrollHeight;
-        }
-    
-        chatHistory.push({ type: "ai", text: aiMessage });
+          const response = await fetch('http://127.0.0.1:6969/chat', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ message: summarizedMessage })  // 发送带有对话历史的消息
+          });
+  
+          const reader = response.body.getReader();
+          let aiMessage = "";
+          let decoder = new TextDecoder();
+  
+          // 创建 AI 回复的 div，但不包含 "[AI]: "
+          const aiMessageDiv = document.createElement('div');
+          aiMessageDiv.classList.add('ai-message');
+          chatBox.appendChild(aiMessageDiv);
+  
+          while (true) {
+              const { done, value } = await reader.read();
+              if (done) break;
+  
+              const chunk = decoder.decode(value, { stream: true });
+              aiMessage += chunk;
+              aiMessageDiv.innerText = aiMessage;  // 仅显示 AI 回复内容
+              chatBox.scrollTop = chatBox.scrollHeight;  // 保持滚动条在底部
+          }
+  
+          // 存储 AI 回复到历史记录，但不包含 "[AI]: "
+          chatHistory.push({ type: "ai", text: aiMessage });
+  
       } catch (error) {
-        chatBox.innerHTML += `<div class="ai-message error">服务器错误</div>`;
+          chatBox.innerHTML += `<div class="ai-message error">服务器错误，请检查 API 设置或网络连接。</div>`;
       }
     }
+  
+  
   
     // 恢复聊天记录
     function restoreChatHistory() {
