@@ -1,6 +1,6 @@
-# Amateur App
+# Amatuer App
 
-**Amateur** 是一个个人开发的应用，当前仍处于雏形阶段。
+**Amatuer** 是一个个人开发的应用，当前仍处于雏形阶段。
 
 ## 项目简介
 Amateur 是一个实验性应用，旨在探索 Electron + Flask + HTML/CSS/JS 技术栈的集成。该项目的目标是构建一个桌面应用，后端使用 Flask 提供 API 支持，前端基于 HTML/CSS/JS 进行交互。
